@@ -48,6 +48,13 @@ public class ListController {
 
     @RequestMapping(value = "jobs")
     public String listJobsByColumnAndValue(Model model, @RequestParam String column, @RequestParam String value) {
+    	HashMap<String, String> jobCOls = new HashMap<>();
+    	jobCOls.put("name", "Name");
+    	jobCOls.put("employer", "Employer");
+    	jobCOls.put("location", "Location");
+    	jobCOls.put("positionType", "Position Type");
+    	jobCOls.put("coreCompetency", "Skill");
+    	 model.addAttribute("columns", jobCOls);
         ArrayList<Job> jobs;
         if (column.toLowerCase().equals("all")){
             jobs = JobData.findAll();
@@ -56,6 +63,7 @@ public class ListController {
             jobs = JobData.findByColumnAndValue(column, value);
             model.addAttribute("title", "Jobs with " + columnChoices.get(column) + ": " + value);
         }
+        
         model.addAttribute("jobs", jobs);
 
         return "list-jobs";
